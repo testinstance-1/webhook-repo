@@ -46,5 +46,4 @@ This repository implements a Flask-based webhook receiver for GitHub actions fro
 ## Notes
 - The UI refreshes every 15 seconds to fetch the latest actions.
 - Merge event handling is included for brownie points.
-- Ensure proper error handling and date formatting as per requirements.
-- **Security Warning**: The MongoDB connection string is hardcoded. Rotate credentials after use and avoid exposing them in public repositories.
+- Ensures proper error handling and date formatting as per requirements.
