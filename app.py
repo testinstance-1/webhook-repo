@@ -15,6 +15,10 @@ collection = db['actions']
 @app.route('/webhook', methods=['POST'])
 def webhook():
     try:
+        # Check if payload is empty or invalid
+        if not request.is_json or not request.get_data():
+            return jsonify({'status': 'error', 'message': 'Empty or invalid JSON payload'}), 400
+
         data = request.json
         action_type = request.headers.get('X-GitHub-Event')
 
@@ -65,7 +69,7 @@ def webhook():
 
     except Exception as e:
         print(f"Error processing webhook: {e}")
-        return jsonify({'status': 'error', 'message': str(e)}), 500
+        return jsonify({'status': 'error', 'message': str(e)}), 400
 
 # UI endpoint to display actions
 @app.route('/')
@@ -76,7 +80,7 @@ def index():
 
     for action in actions:
         if action['action'] == 'PUSH':
-            formatted = f"{action['author']} pushed to {action['to branch']} on {action['timestamp']}"
+            formatted = f"{action['author']} pushed to {action['to_branch']} on {action['timestamp']}"
         elif action['action'] == 'PULL_REQUEST':
             formatted = (f"{action['author']} submitted a pull request from "
                          f"{action['from_branch']} to {action['to_branch']} on {action['timestamp']}")
